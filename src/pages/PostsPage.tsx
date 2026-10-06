@@ -1,19 +1,29 @@
 import { Column } from 'primereact/column';
 import { DataTable, type DataTablePageEvent } from 'primereact/datatable';
 import { Tag } from 'primereact/tag';
-import { useEffect } from 'react';
-import { deletePost ,fetchPosts, setPage } from '../features/posts/postsSlice';
+import { useEffect, useState } from 'react';
+import { deletePost, fetchPosts, setPage, setSearch } from '../features/posts/postsSlice';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import type { Post } from '../types';
 import { fetchUsers } from '../features/users/usersSlice';
 import { Button } from 'primereact/button';
 import { confirmDialog } from 'primereact/confirmdialog';
 import { showToast } from '../features/ui/uiSlice';
-
+import { IconField } from 'primereact/iconfield';
+import { InputIcon } from 'primereact/inputicon';
+import { InputText } from 'primereact/inputtext';
+import { Toolbar } from 'primereact/toolbar';
+import { useDebouncedValue } from '../hooks/useDebouncedValue';
 
 export default function PostsPage() {
   const dispatch = useAppDispatch();
   const { items, total, query, status } = useAppSelector((state) => state.posts);
+  const [searchText, setSearchText] = useState(query.search);
+  const debouncedSearch = useDebouncedValue(searchText, 400);
+
+useEffect(() => {
+  if (debouncedSearch !== query.search) dispatch(setSearch(debouncedSearch));
+}, [debouncedSearch, query.search, dispatch]);
 
   useEffect(() => {
     const request = dispatch(fetchPosts(query));
@@ -86,6 +96,21 @@ const actionsBody = (post: Post) => (
   return (
     <section>
       <h1>Publicaciones</h1>
+      <Toolbar
+  className="mb-3"
+  start={
+    <IconField iconPosition="left">
+      <InputIcon className="pi pi-search" />
+      <InputText
+        type="search"
+        value={searchText}
+        onChange={(e) => setSearchText(e.target.value)}
+        placeholder="Buscar por texto…"
+        aria-label="Buscar publicaciones"
+      />
+    </IconField>
+  }
+/>
       <DataTable
         value={items}
         dataKey="id"
