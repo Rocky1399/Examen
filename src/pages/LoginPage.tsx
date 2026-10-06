@@ -25,7 +25,7 @@ export default function LoginPage() {
     try {
       await dispatch(login({ username, password })).unwrap();
     } catch {
-       // El mensaje de error ya quedó en state.auth.error y se muestra en el formulario
+      // El mensaje de error ya quedó en state.auth.error y se muestra en el formulario
     }
   };
 

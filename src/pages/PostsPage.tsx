@@ -100,7 +100,7 @@ export default function PostsPage() {
           await dispatch(deletePost(post)).unwrap();
           dispatch(showToast({ severity: 'success', summary: 'Publicación eliminada' }));
         } catch {
-           // El reducer ya restauró la fila y el slice ui mostró el Toast de error
+          // El reducer ya restauró la fila y el slice ui mostró el Toast de error
         }
       },
     });

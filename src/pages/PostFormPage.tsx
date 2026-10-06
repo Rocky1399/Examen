@@ -61,7 +61,7 @@ export default function PostFormPage() {
       }
       navigate('/posts');
     } catch {
-       // El Toast de error lo muestra el slice ui; el formulario conserva lo escrito
+      // El Toast de error lo muestra el slice ui; el formulario conserva lo escrito
     }
   };
 
