@@ -4,18 +4,19 @@ import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 
-// pdf.js lee el PDF en un "worker" (otro hilo) para no congelar la página.
-// Se configura en el mismo archivo donde se usa <Document>.
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   'pdfjs-dist/build/pdf.worker.min.mjs',
   import.meta.url,
 ).toString();
 
-const PDF_URL = '/manual.pdf'; // archivo en la carpeta public/
+const PDF_URL = '/manual.pdf';
 
 export default function DocsPage() {
-  const [numPages, setNumPages] = useState(0); // total de páginas (se sabe al cargar)
-  const [page, setPage] = useState(1); // página actual
+  const [numPages, setNumPages] = useState(0);
+  const [page, setPage] = useState(1);
+  const [scale, setScale] = useState(1); // zoom: 1 = 100 %
+  const zoomIn = () => setScale(Math.min(3, scale + 0.25)); // máximo 300 %
+  const zoomOut = () => setScale(Math.max(0.5, scale - 0.25)); // mínimo 50 %
 
   return (
     <section>
@@ -39,16 +40,32 @@ export default function DocsPage() {
           disabled={page >= numPages}
           onClick={() => setPage(page + 1)}
         />
+        <Button
+          icon="pi pi-search-minus"
+          outlined
+          aria-label="Alejar"
+          disabled={scale <= 0.5}
+          onClick={zoomOut}
+        />
+        <span>{Math.round(scale * 100)}%</span>
+        <Button
+          icon="pi pi-search-plus"
+          outlined
+          aria-label="Acercar"
+          disabled={scale >= 3}
+          onClick={zoomIn}
+        />
       </div>
-
-      <Document
-        file={PDF_URL}
-        onLoadSuccess={({ numPages }) => setNumPages(numPages)}
-        loading="Cargando PDF…"
-        error="No se pudo cargar el PDF."
-      >
-        <Page pageNumber={page} />
-      </Document>
+      <div style={{ overflow: 'auto' }}>
+        <Document
+          file={PDF_URL}
+          onLoadSuccess={({ numPages }) => setNumPages(numPages)}
+          loading="Cargando PDF…"
+          error="No se pudo cargar el PDF."
+        >
+          <Page pageNumber={page} scale={scale} />
+        </Document>
+      </div>
     </section>
   );
 }

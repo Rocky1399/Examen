@@ -22,7 +22,7 @@ export default function App() {
             <Route path="/posts" element={<PostsPage />} />
             <Route path="/posts/new" element={<PostFormPage />} />
             <Route path="/posts/:id/edit" element={<PostFormPage />} />
-            <Route path="/posts" element={<DocsPage />} />
+            <Route path="/docs" element={<DocsPage />} />
           </Route>
         </Route>
 
