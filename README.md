@@ -44,8 +44,4 @@ El usuario del enunciado (`kminchelle`) ya no existe en DummyJSON: la API respon
 
 ## Pendiente / qué haría con más tiempo
 
-- Editar al recargar la página (pedir GET /posts/:id)
-- Conservar los cambios al cambiar de página
 - POST /posts/add siempre devuelve id 252
-- Login con componentes de PrimeReact
-- Más tests

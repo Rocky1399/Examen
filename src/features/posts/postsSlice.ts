@@ -94,9 +94,11 @@ export const fetchTags = createAppAsyncThunk<string[], void>(
 
 export const createPost = createAppAsyncThunk<Post, PostInput>(
   'posts/create',
-  async (input, { rejectWithValue }) => {
+  async (input, { getState, rejectWithValue }) => {
     try {
-      return await createPostRequest(input);
+      const created = await createPostRequest(input);
+      const maxId = Math.max(0, ...getState().posts.items.map((p) => p.id));
+      return { ...created, id: Math.max(created.id, maxId + 1), isLocal: true };
     } catch {
       return rejectWithValue('No se pudo crear la publicación.');
     }
@@ -105,7 +107,9 @@ export const createPost = createAppAsyncThunk<Post, PostInput>(
 
 export const updatePost = createAppAsyncThunk<Post, { id: number; changes: PostInput }>(
   'posts/update',
-  async ({ id, changes }, { rejectWithValue }) => {
+  async ({ id, changes }, { getState, rejectWithValue }) => {
+    const existing = getState().posts.items.find((p) => p.id === id);
+    if (existing?.isLocal) return { ...existing, ...changes };
     try {
       return await updatePostRequest(id, changes);
     } catch {
@@ -117,6 +121,7 @@ export const updatePost = createAppAsyncThunk<Post, { id: number; changes: PostI
 export const deletePost = createAppAsyncThunk<number, Post>(
   'posts/delete',
   async (post, { rejectWithValue }) => {
+    if (post.isLocal) return post.id;
     try {
       await deletePostRequest(post.id);
       return post.id;
