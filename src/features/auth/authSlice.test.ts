@@ -19,13 +19,27 @@ describe('authSlice', () => {
     const state = authReducer(loggedOut, action);
 
     expect(state.token).toBe('abc');
+    expect(state.user).toEqual(user);
+    expect(state.status).toBe('succeeded');
   });
 
   it('login.rejected no guarda token y guarda el error', () => {
     const action = login.rejected(null, 'req-1', credentials, 'Usuario o contraseña incorrectos.');
     const state = authReducer(loggedOut, action);
+    expect(state.token).toBeNull();
+    expect(state.status).toBe('failed');
+    expect(state.error).toBe('Usuario o contraseña incorrectos.');
   });
 
   it('logout limpia la sesión', () => {
+    // 1. Estado inicial: alguien con sesión iniciada
+    const loggedIn: AuthState = { token: 'abc', user, status: 'succeeded', error: null };
+
+    // 2. Aplicamos la acción logout al reducer
+    const state = authReducer(loggedIn, logout());
+
+    // 3. Debe quedar exactamente como "sin sesión"
+    expect(state).toEqual(loggedOut);
   });
-});
+})
+
