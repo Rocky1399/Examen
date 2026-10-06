@@ -32,13 +32,10 @@ describe('authSlice', () => {
   });
 
   it('logout limpia la sesión', () => {
-    // 1. Estado inicial: alguien con sesión iniciada
     const loggedIn: AuthState = { token: 'abc', user, status: 'succeeded', error: null };
 
-    // 2. Aplicamos la acción logout al reducer
     const state = authReducer(loggedIn, logout());
 
-    // 3. Debe quedar exactamente como "sin sesión"
     expect(state).toEqual(loggedOut);
   });
 })

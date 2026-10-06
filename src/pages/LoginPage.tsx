@@ -1,19 +1,18 @@
 import { useState, type FormEvent } from 'react';
 import {
   login,
-  logout,
   selectAuthError,
   selectAuthStatus,
   selectIsAuthenticated,
 } from '../features/auth/authSlice';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { Navigate } from 'react-router-dom';
 
 export default function LoginPage() {
   const dispatch = useAppDispatch();
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const status = useAppSelector(selectAuthStatus);
   const error = useAppSelector(selectAuthError);
-  const user = useAppSelector((state) => state.auth.user);
 
   const [username, setUsername] = useState('emilys');
   const [password, setPassword] = useState('emilyspass');
@@ -27,14 +26,7 @@ export default function LoginPage() {
     }
   };
 
-  if (isAuthenticated) {
-    return (
-      <div>
-        <p>Sesión iniciada como {user?.firstName} {user?.lastName}</p>
-        <button onClick={() => dispatch(logout())}>Salir</button>
-      </div>
-    );
-  }
+  if (isAuthenticated) return <Navigate to="/posts" replace />;
 
   return (
     <form onSubmit={onSubmit}>
