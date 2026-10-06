@@ -5,6 +5,7 @@ import { ToastListener } from './components/ToastListener';
 import LoginPage from './pages/LoginPage';
 import PostsPage from './pages/PostsPage';
 import { ConfirmDialog } from 'primereact/confirmdialog';
+import PostFormPage from './pages/PostFormPage';
 
 export default function App() {
   return (
@@ -18,6 +19,8 @@ export default function App() {
         <Route element={<ProtectedRoute />}>
           <Route element={<AppLayout />}>
             <Route path="/posts" element={<PostsPage />} />
+            <Route path="/posts/new" element={<PostFormPage />} />
+            <Route path="/posts/:id/edit" element={<PostFormPage />} />
           </Route>
         </Route>
 

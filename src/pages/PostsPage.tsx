@@ -24,9 +24,11 @@ import { Toolbar } from 'primereact/toolbar';
 import { useDebouncedValue } from '../hooks/useDebouncedValue';
 import { Dropdown } from 'primereact/dropdown';
 import { MultiSelect } from 'primereact/multiselect';
+import { useNavigate } from 'react-router-dom';
 
 export default function PostsPage() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { items, total, query, status } = useAppSelector((state) => state.posts);
   const [searchText, setSearchText] = useState(query.search);
   const debouncedSearch = useDebouncedValue(searchText, 400);
@@ -109,6 +111,14 @@ const confirmDelete = (post: Post) => {
 };
 
 const actionsBody = (post: Post) => (
+    <div className="flex gap-1">
+    <Button
+      icon="pi pi-pencil"
+      rounded
+      text
+      aria-label={`Editar ${post.title}`}
+      onClick={() => navigate(`/posts/${post.id}/edit`)}
+    />
   <Button
     icon="pi pi-trash"
     rounded
@@ -117,6 +127,7 @@ const actionsBody = (post: Post) => (
     aria-label={`Eliminar ${post.title}`}
     onClick={() => confirmDelete(post)}
   />
+  </div>
 );
 
   return (
@@ -167,6 +178,13 @@ const actionsBody = (post: Post) => (
       />
     </div>
   }
+  end={
+  <Button
+    label="Nueva publicación"
+    icon="pi pi-plus"
+    onClick={() => navigate('/posts/new')}
+  />
+}
 />
       <DataTable
         value={items}
