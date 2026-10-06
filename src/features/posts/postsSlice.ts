@@ -24,7 +24,7 @@ export interface PostsQuery {
 export const DEFAULT_QUERY: PostsQuery = { page: 1, rows: 10, search: '', userId: null, tags: [] };
 
 interface PostsState {
-  items: Post[]; 
+  items: Post[];
   total: number;
   query: PostsQuery;
   status: RequestStatus;
@@ -32,7 +32,7 @@ interface PostsState {
   saving: boolean;
   removed: Record<number, { post: Post; index: number }>;
   tags: string[];
-    loadedQuery: PostsQuery | null; 
+  loadedQuery: PostsQuery | null;
 }
 
 const initialState: PostsState = {

@@ -34,30 +34,29 @@ export default function PostsPage() {
   const debouncedSearch = useDebouncedValue(searchText, 400);
   const userOptions = useAppSelector(selectUserOptions);
   const tagOptions = useAppSelector((state) => state.posts.tags);
-  
 
   const hasFilters = searchText !== '' || query.userId !== null || query.tags.length > 0;
 
   const clearFilters = () => {
-    setSearchText('');               // el texto se limpia a través del debounce
+    setSearchText(''); // el texto se limpia a través del debounce
     dispatch(setUserFilter(null));
     dispatch(setTagsFilter([]));
   };
 
-useEffect(() => {
-  if (debouncedSearch !== query.search) dispatch(setSearch(debouncedSearch));
-}, [debouncedSearch, query.search, dispatch]);
+  useEffect(() => {
+    if (debouncedSearch !== query.search) dispatch(setSearch(debouncedSearch));
+  }, [debouncedSearch, query.search, dispatch]);
 
-useEffect(() => {
-  if (JSON.stringify(loadedQuery) === JSON.stringify(query)) return;
-  const request = dispatch(fetchPosts(query));
-  return () => request.abort();
-}, [dispatch, query, loadedQuery]);
+  useEffect(() => {
+    if (JSON.stringify(loadedQuery) === JSON.stringify(query)) return;
+    const request = dispatch(fetchPosts(query));
+    return () => request.abort();
+  }, [dispatch, query, loadedQuery]);
 
-useEffect(() => {
-  void dispatch(fetchUsers());
-  void dispatch(fetchTags());
-}, [dispatch]);
+  useEffect(() => {
+    void dispatch(fetchUsers());
+    void dispatch(fetchTags());
+  }, [dispatch]);
 
   const onPage = (event: DataTablePageEvent) => {
     const page = Math.floor(event.first / event.rows) + 1;
@@ -74,115 +73,115 @@ useEffect(() => {
 
   const reactionsBody = (post: Post) => (
     <span>
-      <i className="pi pi-thumbs-up" /> {post.reactions.likes}{' '}
-      <i className="pi pi-thumbs-down" /> {post.reactions.dislikes}
+      <i className="pi pi-thumbs-up" /> {post.reactions.likes} <i className="pi pi-thumbs-down" />{' '}
+      {post.reactions.dislikes}
     </span>
   );
 
   const users = useAppSelector((state) => state.users.items);
 
   const userBody = (post: Post) => {
-  const author = users.find((u) => u.id === post.userId);
+    const author = users.find((u) => u.id === post.userId);
 
-  return author ? `${author.firstName} ${author.lastName}` : `Usuario #${post.userId}`;
-};
+    return author ? `${author.firstName} ${author.lastName}` : `Usuario #${post.userId}`;
+  };
 
-const confirmDelete = (post: Post) => {
-  confirmDialog({
-    header: 'Eliminar publicación',
-    message: `¿Eliminar "${post.title}"? Esta acción no se puede deshacer.`,
-    icon: 'pi pi-exclamation-triangle',
-    acceptLabel: 'Eliminar',
-    rejectLabel: 'Cancelar',
-    acceptClassName: 'p-button-danger',
-    defaultFocus: 'reject',             
-    accept: async () => {
-      try {
-        await dispatch(deletePost(post)).unwrap();
-        dispatch(showToast({ severity: 'success', summary: 'Publicación eliminada' }));
-      } catch {
+  const confirmDelete = (post: Post) => {
+    confirmDialog({
+      header: 'Eliminar publicación',
+      message: `¿Eliminar "${post.title}"? Esta acción no se puede deshacer.`,
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Eliminar',
+      rejectLabel: 'Cancelar',
+      acceptClassName: 'p-button-danger',
+      defaultFocus: 'reject',
+      accept: async () => {
+        try {
+          await dispatch(deletePost(post)).unwrap();
+          dispatch(showToast({ severity: 'success', summary: 'Publicación eliminada' }));
+        } catch {
+           // El reducer ya restauró la fila y el slice ui mostró el Toast de error
+        }
+      },
+    });
+  };
 
-      }
-    },
-  });
-};
-
-const actionsBody = (post: Post) => (
+  const actionsBody = (post: Post) => (
     <div className="flex gap-1">
-    <Button
-      icon="pi pi-pencil"
-      rounded
-      text
-      aria-label={`Editar ${post.title}`}
-      onClick={() => navigate(`/posts/${post.id}/edit`)}
-    />
-  <Button
-    icon="pi pi-trash"
-    rounded
-    text
-    severity="danger"
-    aria-label={`Eliminar ${post.title}`}
-    onClick={() => confirmDelete(post)}
-  />
-  </div>
-);
+      <Button
+        icon="pi pi-pencil"
+        rounded
+        text
+        aria-label={`Editar ${post.title}`}
+        onClick={() => navigate(`/posts/${post.id}/edit`)}
+      />
+      <Button
+        icon="pi pi-trash"
+        rounded
+        text
+        severity="danger"
+        aria-label={`Eliminar ${post.title}`}
+        onClick={() => confirmDelete(post)}
+      />
+    </div>
+  );
 
   return (
     <section>
       <h1>Publicaciones</h1>
-<Toolbar
-  className="mb-3"
-  start={
-    <div className="flex flex-wrap gap-2 align-items-center">
-      <IconField iconPosition="left">
-        <InputIcon className="pi pi-search" />
-        <InputText
-          type="search"
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          placeholder="Buscar por texto…"
-          aria-label="Buscar publicaciones"
-        />
-      </IconField>
+      <Toolbar
+        className="mb-3"
+        start={
+          <div className="flex flex-wrap gap-2 align-items-center">
+            <IconField iconPosition="left">
+              <InputIcon className="pi pi-search" />
+              <InputText
+                type="search"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                placeholder="Buscar por texto…"
+                aria-label="Buscar publicaciones"
+              />
+            </IconField>
 
-      <Dropdown
-        value={query.userId}
-        options={userOptions}
-        onChange={(e) => dispatch(setUserFilter(e.value ?? null))}
-        placeholder="Filtrar por usuario"
-        aria-label="Filtrar por usuario"
-        filter
-        showClear
-      />
+            <Dropdown
+              value={query.userId}
+              options={userOptions}
+              onChange={(e) => dispatch(setUserFilter(e.value ?? null))}
+              placeholder="Filtrar por usuario"
+              aria-label="Filtrar por usuario"
+              filter
+              showClear
+            />
 
-      <MultiSelect
-        value={query.tags}
-        options={tagOptions}
-        onChange={(e) => dispatch(setTagsFilter(e.value))}
-        placeholder="Filtrar por tags"
-        aria-label="Filtrar por tags"
-        filter
-        display="chip"
-        maxSelectedLabels={3}
-      />
+            <MultiSelect
+              value={query.tags}
+              options={tagOptions}
+              onChange={(e) => dispatch(setTagsFilter(e.value))}
+              placeholder="Filtrar por tags"
+              aria-label="Filtrar por tags"
+              filter
+              display="chip"
+              maxSelectedLabels={3}
+            />
 
-      <Button
-        label="Limpiar"
-        icon="pi pi-filter-slash"
-        outlined
-        onClick={clearFilters}
-        disabled={!hasFilters}
+            <Button
+              label="Limpiar"
+              icon="pi pi-filter-slash"
+              outlined
+              onClick={clearFilters}
+              disabled={!hasFilters}
+            />
+          </div>
+        }
+        end={
+          <Button
+            label="Nueva publicación"
+            icon="pi pi-plus"
+            onClick={() => navigate('/posts/new')}
+          />
+        }
       />
-    </div>
-  }
-  end={
-  <Button
-    label="Nueva publicación"
-    icon="pi pi-plus"
-    onClick={() => navigate('/posts/new')}
-  />
-}
-/>
       <DataTable
         value={items}
         dataKey="id"

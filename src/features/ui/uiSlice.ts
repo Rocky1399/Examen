@@ -15,7 +15,7 @@ export interface ToastMessage {
 }
 
 interface UiState {
-  toasts: ToastMessage[]; 
+  toasts: ToastMessage[];
   pendingRequests: number;
 }
 
@@ -48,8 +48,7 @@ const uiSlice = createSlice({
       .addMatcher(isRejected, (state, action) => {
         state.pendingRequests -= 1;
         if (action.meta.aborted) return;
-        const detail =
-          typeof action.payload === 'string' ? action.payload : action.error.message;
+        const detail = typeof action.payload === 'string' ? action.payload : action.error.message;
         state.toasts.push({ id: nanoid(), severity: 'error', summary: 'Error', detail });
       });
   },

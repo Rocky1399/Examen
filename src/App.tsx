@@ -10,7 +10,7 @@ import PostFormPage from './pages/PostFormPage';
 export default function App() {
   return (
     <>
-      <ToastListener /> 
+      <ToastListener />
       <ConfirmDialog />
 
       <Routes>

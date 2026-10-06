@@ -6,7 +6,7 @@ import {
   selectIsAuthenticated,
 } from '../features/auth/authSlice';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { Navigate, useLocation  } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 
 export default function LoginPage() {
   const dispatch = useAppDispatch();
@@ -14,7 +14,8 @@ export default function LoginPage() {
   const status = useAppSelector(selectAuthStatus);
   const error = useAppSelector(selectAuthError);
   const location = useLocation();
-  const from = (location.state as { from?: { pathname: string } } | null)?.from?.pathname ?? '/posts';
+  const from =
+    (location.state as { from?: { pathname: string } } | null)?.from?.pathname ?? '/posts';
 
   const [username, setUsername] = useState('emilys');
   const [password, setPassword] = useState('emilyspass');
@@ -22,9 +23,9 @@ export default function LoginPage() {
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
     try {
-        await dispatch(login({ username, password })).unwrap(); 
+      await dispatch(login({ username, password })).unwrap();
     } catch {
-
+       // El mensaje de error ya quedó en state.auth.error y se muestra en el formulario
     }
   };
 
@@ -36,7 +37,12 @@ export default function LoginPage() {
       <input id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
 
       <label htmlFor="password">Contraseña</label>
-      <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+      <input
+        id="password"
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
 

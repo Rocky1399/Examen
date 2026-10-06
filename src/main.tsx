@@ -11,7 +11,6 @@ import App from './App';
 import { makeStore } from './store';
 import { setupInterceptors } from './store/setupInterceptors';
 
-
 const store = makeStore();
 setupInterceptors(store);
 

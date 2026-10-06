@@ -38,5 +38,4 @@ describe('authSlice', () => {
 
     expect(state).toEqual(loggedOut);
   });
-})
-
+});

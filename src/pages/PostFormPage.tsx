@@ -61,6 +61,7 @@ export default function PostFormPage() {
       }
       navigate('/posts');
     } catch {
+       // El Toast de error lo muestra el slice ui; el formulario conserva lo escrito
     }
   };
 
@@ -68,7 +69,11 @@ export default function PostFormPage() {
     return (
       <section>
         <p>No se encontró la publicación. Ábrela desde la tabla.</p>
-        <Button label="Volver a la tabla" icon="pi pi-arrow-left" onClick={() => navigate('/posts')} />
+        <Button
+          label="Volver a la tabla"
+          icon="pi pi-arrow-left"
+          onClick={() => navigate('/posts')}
+        />
       </section>
     );
   }
@@ -122,7 +127,7 @@ export default function PostFormPage() {
           {errors.body && <small className="p-error">{errors.body.message}</small>}
         </div>
 
-                <div className="flex flex-column gap-2">
+        <div className="flex flex-column gap-2">
           <label htmlFor="userId">Usuario *</label>
           <Controller
             name="userId"

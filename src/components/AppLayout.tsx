@@ -15,13 +15,10 @@ export function AppLayout() {
         </nav>
 
         <div className="flex align-items-center gap-2">
-            <span>{user?.firstName} {user?.lastName}</span>
-          <Button
-            label="Salir"
-            icon="pi pi-sign-out"
-            text
-            onClick={() => dispatch(logout())}
-          />
+          <span>
+            {user?.firstName} {user?.lastName}
+          </span>
+          <Button label="Salir" icon="pi pi-sign-out" text onClick={() => dispatch(logout())} />
         </div>
       </header>
 
