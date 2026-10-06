@@ -34,7 +34,7 @@ export default function DocsPage() {
     <section>
       <h1>Ayuda</h1>
 
-      <div className="flex align-items-center gap-2 mb-3">
+      <div className="flex flex-wrap align-items-center gap-2 mb-3">
         <Button
           icon="pi pi-chevron-left"
           outlined
@@ -73,6 +73,10 @@ export default function DocsPage() {
           disabled={scale >= 3}
           onClick={zoomIn}
         />
+        <a href={PDF_URL} download="manual.pdf" className="p-button no-underline">
+          <i className="pi pi-download mr-2" />
+          Descargar
+        </a>
       </div>
       <div style={{ overflow: 'auto' }}>
         <Document
