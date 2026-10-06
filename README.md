@@ -20,6 +20,7 @@ El usuario del enunciado (`kminchelle`) ya no existe en DummyJSON: la API respon
 - Login con token guardado en Redux y localStorage
 - Rutas protegidas: sin token te manda a /login
 - CRUD
+- Visor de PDF en /docs (react-pdf): navegación entre páginas, ir a una página, zoom y descarga
 
 ## Estructura del proyecto
 
@@ -43,7 +44,6 @@ El usuario del enunciado (`kminchelle`) ya no existe en DummyJSON: la API respon
 
 ## Pendiente / qué haría con más tiempo
 
-- PDF
 - Editar al recargar la página (pedir GET /posts/:id)
 - Conservar los cambios al cambiar de página
 - POST /posts/add siempre devuelve id 252
