@@ -6,17 +6,29 @@ Esta hecho con React y Redux
 ## Cómo correrlo
 (comandos: npm install, npm run dev, npm test, npm run build)
 (credenciales: emilys / emilyspass, y por qué no sirve kminchelle)
+```bash
+npm install
+npm run dev     # abre http://localhost:5173
+npm test        # corre los tests
+npm run build   # build de producción
+```
+
+Usuario de prueba: `emilys` / `emilyspass`.
+El usuario del enunciado (`kminchelle`) ya no existe en DummyJSON: la API responde "Invalid credentials".
 
 ## Qué está hecho
-(lista corta: login, rutas protegidas, tabla con visualizar, editar, actualizar y borrar, formulario con validaciones, cancelar, crear y editar tests)
+- Login con token guardado en Redux y localStorage
+- Rutas protegidas: sin token te manda a /login
+- CRUD
 
 ## Estructura del proyecto
-(las carpetas api/, features/, store/, pages/, components/ y hooks/, con una línea de para qué sirve cada una)
+- `api/`: funciones que llaman a DummyJSON. No saben nada de Redux.
+- `features/`: un slice de Redux por tema (auth, posts, users, ui).
 
 ## Decisiones técnicas
-- ¿Por qué separé api/ de Redux? Si cambias Axios por fetch, solo tocas api/; además se puede simular en los tests
-- ¿Por qué el token se guarda con un listener y no en el reducer? Los reducers deben ser puros; localStorage es un efecto secundario
-- ¿Por qué la tabla despacha setPage y no fetchPosts?"Una sola fuente de verdad la query y un solo lugar que pide datos"
+- ¿Por qué separé api/ de Redux? Separé api/ de Redux para que la capa de datos no dependa del estado: si cambio Axios por fetch solo toco api/, y en los tests puedo simular las llamadas.
+- ¿Por qué el token se guarda con un listener y no en el reducer? El token se guarda porque reducers deben ser puros; localStorage es un efecto secundario
+- ¿Por qué la tabla despacha setPage y no fetchPosts? Una sola fuente de verdad la query y un solo lugar que pide datos"
 - ¿Por qué debounce en la búsqueda? Evitar una petición por tecla, el 429 y el parpadeo
 - ¿Cómo combiné filtros si la API no lo permite? Se pide el filtro más selectivo, se filtra el resto en el cliente con .filter() y se pagina con .slice()
 - ¿Por qué el borrado es optimista? La fila desaparece al instante y, si falla, se restaura con el post completo guardado en removed
