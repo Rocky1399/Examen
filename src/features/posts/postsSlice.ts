@@ -3,6 +3,9 @@ import {
   createPostRequest,
   deletePostRequest,
   getPosts,
+  getPostsByTag,
+  getPostsByUser,
+  getTagList,
   searchPosts,
   updatePostRequest,
 } from '../../api/postsApi';
@@ -45,12 +48,42 @@ export const fetchPosts = createAppAsyncThunk<{ posts: Post[]; total: number }, 
   async (query, { rejectWithValue, signal }) => {
     try {
       const skip = (query.page - 1) * query.rows;
-      const data = query.search
-        ? await searchPosts(query.search, query.rows, skip, signal)
-        : await getPosts(query.rows, skip, signal);
-      return { posts: data.posts, total: data.total };
+      const hasFilters = query.search !== '' || query.userId !== null || query.tags.length > 0;
+
+      if (!hasFilters) {
+        const data = await getPosts(query.rows, skip, signal);
+        return { posts: data.posts, total: data.total };
+      }
+
+      let candidates: Post[];
+      if (query.search !== '') {
+        candidates = (await searchPosts(query.search, 0, 0, signal)).posts;
+      } else if (query.userId !== null) {
+        candidates = await getPostsByUser(query.userId, signal);
+      } else {
+        candidates = await getPostsByTag(query.tags[0], signal);
+      }
+
+      const filtered = candidates.filter(
+        (post) =>
+          (query.userId === null || post.userId === query.userId) &&
+          query.tags.every((tag) => post.tags.includes(tag)),
+      );
+
+      return { posts: filtered.slice(skip, skip + query.rows), total: filtered.length };
     } catch {
       return rejectWithValue('No se pudieron cargar las publicaciones.');
+    }
+  },
+);
+
+export const fetchTags = createAppAsyncThunk<string[], void>(
+  'posts/fetchTags',
+  async (_, { rejectWithValue }) => {
+    try {
+      return await getTagList();
+    } catch {
+      return rejectWithValue('No se pudieron cargar los tags.');
     }
   },
 );
@@ -170,7 +203,9 @@ const postsSlice = createSlice({
         state.total += 1;
         delete state.removed[action.meta.arg.id];
       })
-
+      .addCase(fetchTags.fulfilled, (state, action) => {
+        state.tags = action.payload;
+      })
       .addCase(logout, () => initialState);
   },
 });

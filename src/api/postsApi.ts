@@ -38,3 +38,24 @@ export async function updatePostRequest(id: number, input: PostInput): Promise<P
 export async function deletePostRequest(id: number): Promise<void> {
   await http.delete(`/posts/${id}`);
 }
+
+export async function getPostsByUser(userId: number, signal?: AbortSignal): Promise<Post[]> {
+  const { data } = await http.get<PostsResponse>(`/posts/user/${userId}`, {
+    params: { limit: 0 },
+    signal,
+  });
+  return data.posts;
+}
+
+export async function getPostsByTag(tag: string, signal?: AbortSignal): Promise<Post[]> {
+  const { data } = await http.get<PostsResponse>(`/posts/tag/${encodeURIComponent(tag)}`, {
+    params: { limit: 0 },
+    signal,
+  });
+  return data.posts;
+}
+
+export async function getTagList(): Promise<string[]> {
+  const { data } = await http.get<string[]>('/posts/tag-list');
+  return data;
+}
