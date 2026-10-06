@@ -2,10 +2,14 @@ import { Column } from 'primereact/column';
 import { DataTable, type DataTablePageEvent } from 'primereact/datatable';
 import { Tag } from 'primereact/tag';
 import { useEffect } from 'react';
-import { fetchPosts, setPage } from '../features/posts/postsSlice';
+import { deletePost ,fetchPosts, setPage } from '../features/posts/postsSlice';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import type { Post } from '../types';
 import { fetchUsers } from '../features/users/usersSlice';
+import { Button } from 'primereact/button';
+import { confirmDialog } from 'primereact/confirmdialog';
+import { showToast } from '../features/ui/uiSlice';
+
 
 export default function PostsPage() {
   const dispatch = useAppDispatch();
@@ -16,7 +20,6 @@ export default function PostsPage() {
     return () => request.abort();
   }, [dispatch, query]);
 
-  // Los usuarios se piden una sola vez al entrar
 useEffect(() => {
   void dispatch(fetchUsers());
 }, [dispatch]);
@@ -44,11 +47,41 @@ useEffect(() => {
   const users = useAppSelector((state) => state.users.items);
 
   const userBody = (post: Post) => {
-  // TODO: usa .find() para buscar en `users` el usuario cuyo id sea igual a post.userId
   const author = users.find((u) => u.id === post.userId);
 
   return author ? `${author.firstName} ${author.lastName}` : `Usuario #${post.userId}`;
 };
+
+const confirmDelete = (post: Post) => {
+  confirmDialog({
+    header: 'Eliminar publicación',
+    message: `¿Eliminar "${post.title}"? Esta acción no se puede deshacer.`,
+    icon: 'pi pi-exclamation-triangle',
+    acceptLabel: 'Eliminar',
+    rejectLabel: 'Cancelar',
+    acceptClassName: 'p-button-danger',
+    defaultFocus: 'reject',             
+    accept: async () => {
+      try {
+        await dispatch(deletePost(post)).unwrap();
+        dispatch(showToast({ severity: 'success', summary: 'Publicación eliminada' }));
+      } catch {
+
+      }
+    },
+  });
+};
+
+const actionsBody = (post: Post) => (
+  <Button
+    icon="pi pi-trash"
+    rounded
+    text
+    severity="danger"
+    aria-label={`Eliminar ${post.title}`}
+    onClick={() => confirmDelete(post)}
+  />
+);
 
   return (
     <section>
@@ -71,6 +104,7 @@ useEffect(() => {
         <Column header="Usuario" body={userBody} />
         <Column header="Tags" body={tagsBody} />
         <Column header="Reacciones" body={reactionsBody} />
+        <Column header="Acciones" body={actionsBody} />
       </DataTable>
     </section>
   );
