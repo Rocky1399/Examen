@@ -43,5 +43,3 @@ El usuario del enunciado (`kminchelle`) ya no existe en DummyJSON: la API respon
 - El post creado desaparecía al volver a la tabla → loadedQuery
 
 ## Pendiente / qué haría con más tiempo
-
-- POST /posts/add siempre devuelve id 252
