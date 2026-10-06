@@ -41,5 +41,9 @@ El usuario del enunciado (`kminchelle`) ya no existe en DummyJSON: la API respon
 
 - El usuario de prueba del enunciado ya no existe
 - El post creado desaparecía al volver a la tabla → loadedQuery
+- DummyJSON no guarda los posts nuevos, PUT /posts/252 no lo encuentra, marque los posts creados como isLocal y para esos, actualizo solo Redux sin llamar a la API
 
 ## Pendiente / qué haría con más tiempo
+- Editar al recargar la página: hoy el formulario solo encuentra el post si viene de la tabla (habría que pedir GET /posts/:id).
+- Conservar los cambios al cambiar de página: DummyJSON no guarda nada, así que al cambiar de página o recargar se pierden los posts creados o editados.
+- Más tests: reducers de posts, filtros y componentes.
