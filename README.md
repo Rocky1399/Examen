@@ -15,6 +15,16 @@ npm run build   # build de producción
 Usuario de prueba: `emilys` / `emilyspass`.
 El usuario del enunciado (`kminchelle`) ya no existe en DummyJSON: la API responde "Invalid credentials".
 
+## Capturas
+
+| Login                                   | Tabla                                   | Filtros                                     |
+| --------------------------------------- | --------------------------------------- | ------------------------------------------- |
+| ![Login](docs/screenshots/01-login.png) | ![Tabla](docs/screenshots/02-tabla.png) | ![Filtros](docs/screenshots/03-filtros.png) |
+
+| Formulario                                        | Eliminar                                      | PDF                                 |
+| ------------------------------------------------- | --------------------------------------------- | ----------------------------------- |
+| ![Formulario](docs/screenshots/04-formulario.png) | ![Eliminar](docs/screenshots/05-eliminar.png) | ![PDF](docs/screenshots/06-pdf.png) |
+
 ## Qué está hecho
 
 - Login con token guardado en Redux y localStorage
@@ -44,6 +54,7 @@ El usuario del enunciado (`kminchelle`) ya no existe en DummyJSON: la API respon
 - DummyJSON no guarda los posts nuevos, PUT /posts/252 no lo encuentra, marque los posts creados como isLocal y para esos, actualizo solo Redux sin llamar a la API
 
 ## Pendiente / qué haría con más tiempo
+
 - Editar al recargar la página: hoy el formulario solo encuentra el post si viene de la tabla (habría que pedir GET /posts/:id).
 - Conservar los cambios al cambiar de página: DummyJSON no guarda nada, así que al cambiar de página o recargar se pierden los posts creados o editados.
 - Más tests: reducers de posts, filtros y componentes.
