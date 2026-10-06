@@ -1,11 +1,9 @@
 # Gestor de Publicaciones
 
-Es donde se hace el CRUD y se pueden visuualizar los datos
+Es donde se hace el CRUD y se pueden visualizar los datos
 Esta hecho con React y Redux
 
 ## Cómo correrlo
-(comandos: npm install, npm run dev, npm test, npm run build)
-(credenciales: emilys / emilyspass, y por qué no sirve kminchelle)
 ```bash
 npm install
 npm run dev     # abre http://localhost:5173
@@ -39,7 +37,7 @@ El usuario del enunciado (`kminchelle`) ya no existe en DummyJSON: la API respon
 - no guarda los datos de publicaciones creadas
 
 ## Pendiente / qué haría con más tiempo
-- PDF (si no lo alcanzas)
+- PDF
 - Editar al recargar la página (pedir GET /posts/:id)
 - Conservar los cambios al cambiar de página
 - POST /posts/add siempre devuelve id 252
