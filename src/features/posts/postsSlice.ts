@@ -32,6 +32,7 @@ interface PostsState {
   saving: boolean;
   removed: Record<number, { post: Post; index: number }>;
   tags: string[];
+    loadedQuery: PostsQuery | null; 
 }
 
 const initialState: PostsState = {
@@ -43,6 +44,7 @@ const initialState: PostsState = {
   saving: false,
   removed: {},
   tags: [],
+  loadedQuery: null,
 };
 
 export const fetchPosts = createAppAsyncThunk<{ posts: Post[]; total: number }, PostsQuery>(
@@ -158,6 +160,7 @@ const postsSlice = createSlice({
         state.status = 'succeeded';
         state.items = action.payload.posts;
         state.total = action.payload.total;
+        state.loadedQuery = action.meta.arg;
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         if (action.meta.aborted) return;

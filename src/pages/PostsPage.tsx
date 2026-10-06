@@ -29,11 +29,12 @@ import { useNavigate } from 'react-router-dom';
 export default function PostsPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { items, total, query, status } = useAppSelector((state) => state.posts);
+  const { items, total, query, status, loadedQuery } = useAppSelector((state) => state.posts);
   const [searchText, setSearchText] = useState(query.search);
   const debouncedSearch = useDebouncedValue(searchText, 400);
-  const userOptions = useAppSelector(selectUserOptions);           // [{ label: 'Ava Harris', value: 121 }, ...]
-  const tagOptions = useAppSelector((state) => state.posts.tags);  // ['history', 'crime', ...]
+  const userOptions = useAppSelector(selectUserOptions);
+  const tagOptions = useAppSelector((state) => state.posts.tags);
+  
 
   const hasFilters = searchText !== '' || query.userId !== null || query.tags.length > 0;
 
@@ -43,19 +44,15 @@ export default function PostsPage() {
     dispatch(setTagsFilter([]));
   };
 
-
 useEffect(() => {
   if (debouncedSearch !== query.search) dispatch(setSearch(debouncedSearch));
 }, [debouncedSearch, query.search, dispatch]);
 
-  useEffect(() => {
-    const request = dispatch(fetchPosts(query));
-    return () => request.abort();
-  }, [dispatch, query]);
-
 useEffect(() => {
-  void dispatch(fetchUsers());
-}, [dispatch]);
+  if (JSON.stringify(loadedQuery) === JSON.stringify(query)) return;
+  const request = dispatch(fetchPosts(query));
+  return () => request.abort();
+}, [dispatch, query, loadedQuery]);
 
 useEffect(() => {
   void dispatch(fetchUsers());
