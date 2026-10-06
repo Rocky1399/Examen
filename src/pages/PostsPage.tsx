@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { fetchPosts, setPage } from '../features/posts/postsSlice';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import type { Post } from '../types';
+import { fetchUsers } from '../features/users/usersSlice';
 
 export default function PostsPage() {
   const dispatch = useAppDispatch();
@@ -14,6 +15,11 @@ export default function PostsPage() {
     const request = dispatch(fetchPosts(query));
     return () => request.abort();
   }, [dispatch, query]);
+
+  // Los usuarios se piden una sola vez al entrar
+useEffect(() => {
+  void dispatch(fetchUsers());
+}, [dispatch]);
 
   const onPage = (event: DataTablePageEvent) => {
     const page = Math.floor(event.first / event.rows) + 1;
@@ -35,6 +41,15 @@ export default function PostsPage() {
     </span>
   );
 
+  const users = useAppSelector((state) => state.users.items);
+
+  const userBody = (post: Post) => {
+  // TODO: usa .find() para buscar en `users` el usuario cuyo id sea igual a post.userId
+  const author = users.find((u) => u.id === post.userId);
+
+  return author ? `${author.firstName} ${author.lastName}` : `Usuario #${post.userId}`;
+};
+
   return (
     <section>
       <h1>Publicaciones</h1>
@@ -53,6 +68,7 @@ export default function PostsPage() {
       >
         <Column field="id" header="ID" />
         <Column field="title" header="Título" />
+        <Column header="Usuario" body={userBody} />
         <Column header="Tags" body={tagsBody} />
         <Column header="Reacciones" body={reactionsBody} />
       </DataTable>
