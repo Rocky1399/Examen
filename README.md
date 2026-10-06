@@ -25,6 +25,21 @@ El usuario del enunciado (`kminchelle`) ya no existe en DummyJSON: la API respon
 | ------------------------------------------------- | --------------------------------------------- | ----------------------------------- |
 | ![Formulario](docs/screenshots/04-formulario.png) | ![Eliminar](docs/screenshots/05-eliminar.png) | ![PDF](docs/screenshots/06-pdf.png) |
 
+
+## Dependencias principales
+
+| Librería | Para qué |
+|---|---|
+| React 19 + TypeScript | Base de la aplicación |
+| Vite | Servidor de desarrollo y build |
+| Redux Toolkit + React Redux | Estado global (slices y thunks) |
+| React Router | Rutas públicas y protegidas |
+| PrimeReact + PrimeFlex + PrimeIcons | Componentes de UI |
+| Axios | Peticiones HTTP |
+| react-hook-form | Validación del formulario |
+| react-pdf | Visor de PDF |
+| Vitest | Tests |
+| ESLint + Prettier | Calidad y formato de código |
 ## Qué está hecho
 
 - Login con token guardado en Redux y localStorage
