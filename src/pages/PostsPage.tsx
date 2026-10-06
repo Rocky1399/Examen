@@ -2,10 +2,18 @@ import { Column } from 'primereact/column';
 import { DataTable, type DataTablePageEvent } from 'primereact/datatable';
 import { Tag } from 'primereact/tag';
 import { useEffect, useState } from 'react';
-import { deletePost, fetchPosts, setPage, setSearch } from '../features/posts/postsSlice';
+import {
+  deletePost,
+  fetchPosts,
+  fetchTags,
+  setPage,
+  setSearch,
+  setTagsFilter,
+  setUserFilter,
+} from '../features/posts/postsSlice';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import type { Post } from '../types';
-import { fetchUsers } from '../features/users/usersSlice';
+import { fetchUsers, selectUserOptions } from '../features/users/usersSlice';
 import { Button } from 'primereact/button';
 import { confirmDialog } from 'primereact/confirmdialog';
 import { showToast } from '../features/ui/uiSlice';
@@ -14,12 +22,25 @@ import { InputIcon } from 'primereact/inputicon';
 import { InputText } from 'primereact/inputtext';
 import { Toolbar } from 'primereact/toolbar';
 import { useDebouncedValue } from '../hooks/useDebouncedValue';
+import { Dropdown } from 'primereact/dropdown';
+import { MultiSelect } from 'primereact/multiselect';
 
 export default function PostsPage() {
   const dispatch = useAppDispatch();
   const { items, total, query, status } = useAppSelector((state) => state.posts);
   const [searchText, setSearchText] = useState(query.search);
   const debouncedSearch = useDebouncedValue(searchText, 400);
+  const userOptions = useAppSelector(selectUserOptions);           // [{ label: 'Ava Harris', value: 121 }, ...]
+  const tagOptions = useAppSelector((state) => state.posts.tags);  // ['history', 'crime', ...]
+
+  const hasFilters = searchText !== '' || query.userId !== null || query.tags.length > 0;
+
+  const clearFilters = () => {
+    setSearchText('');               // el texto se limpia a través del debounce
+    dispatch(setUserFilter(null));
+    dispatch(setTagsFilter([]));
+  };
+
 
 useEffect(() => {
   if (debouncedSearch !== query.search) dispatch(setSearch(debouncedSearch));
@@ -32,6 +53,11 @@ useEffect(() => {
 
 useEffect(() => {
   void dispatch(fetchUsers());
+}, [dispatch]);
+
+useEffect(() => {
+  void dispatch(fetchUsers());
+  void dispatch(fetchTags());
 }, [dispatch]);
 
   const onPage = (event: DataTablePageEvent) => {
@@ -96,19 +122,50 @@ const actionsBody = (post: Post) => (
   return (
     <section>
       <h1>Publicaciones</h1>
-      <Toolbar
+<Toolbar
   className="mb-3"
   start={
-    <IconField iconPosition="left">
-      <InputIcon className="pi pi-search" />
-      <InputText
-        type="search"
-        value={searchText}
-        onChange={(e) => setSearchText(e.target.value)}
-        placeholder="Buscar por texto…"
-        aria-label="Buscar publicaciones"
+    <div className="flex flex-wrap gap-2 align-items-center">
+      <IconField iconPosition="left">
+        <InputIcon className="pi pi-search" />
+        <InputText
+          type="search"
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          placeholder="Buscar por texto…"
+          aria-label="Buscar publicaciones"
+        />
+      </IconField>
+
+      <Dropdown
+        value={query.userId}
+        options={userOptions}
+        onChange={(e) => dispatch(setUserFilter(e.value ?? null))}
+        placeholder="Filtrar por usuario"
+        aria-label="Filtrar por usuario"
+        filter
+        showClear
       />
-    </IconField>
+
+      <MultiSelect
+        value={query.tags}
+        options={tagOptions}
+        onChange={(e) => dispatch(setTagsFilter(e.value))}
+        placeholder="Filtrar por tags"
+        aria-label="Filtrar por tags"
+        filter
+        display="chip"
+        maxSelectedLabels={3}
+      />
+
+      <Button
+        label="Limpiar"
+        icon="pi pi-filter-slash"
+        outlined
+        onClick={clearFilters}
+        disabled={!hasFilters}
+      />
+    </div>
   }
 />
       <DataTable

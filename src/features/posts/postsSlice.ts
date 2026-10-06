@@ -31,6 +31,7 @@ interface PostsState {
   error: string | null;
   saving: boolean;
   removed: Record<number, { post: Post; index: number }>;
+  tags: string[];
 }
 
 const initialState: PostsState = {
@@ -41,6 +42,7 @@ const initialState: PostsState = {
   error: null,
   saving: false,
   removed: {},
+  tags: [],
 };
 
 export const fetchPosts = createAppAsyncThunk<{ posts: Post[]; total: number }, PostsQuery>(
