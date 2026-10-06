@@ -1,0 +1,303 @@
+%PDF-1.4
+%âãÏÓ
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [5 0 R 7 0 R 9 0 R 11 0 R] /Count 4 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 6 0 R >>
+endobj
+6 0 obj
+<< /Length 858 >>
+stream
+BT
+/F2 22 Tf
+72 760 Td
+(Manual de usuario) Tj
+ET
+0.2 0.4 0.8 RG
+2 w
+72 745 m 540 745 l S
+BT
+/F1 12 Tf
+72 710 Td
+(Gestor de Publicaciones - React + TypeScript + Redux Toolkit + PrimeReact) Tj
+ET
+BT
+/F1 12 Tf
+72 690 Td
+() Tj
+ET
+BT
+/F1 12 Tf
+72 670 Td
+(1. Iniciar sesión) Tj
+ET
+BT
+/F1 12 Tf
+72 650 Td
+(Entra con el usuario de prueba de DummyJSON:) Tj
+ET
+BT
+/F1 12 Tf
+72 630 Td
+(    usuario: emilys      contraseña: emilyspass) Tj
+ET
+BT
+/F1 12 Tf
+72 610 Td
+(El token JWT se guarda en Redux y en localStorage, así que la) Tj
+ET
+BT
+/F1 12 Tf
+72 590 Td
+(sesión sobrevive a recargar la página. Si el token vence, la app) Tj
+ET
+BT
+/F1 12 Tf
+72 570 Td
+(cierra la sesión y te lleva de vuelta al login.) Tj
+ET
+BT
+/F1 12 Tf
+72 550 Td
+() Tj
+ET
+BT
+/F1 12 Tf
+72 530 Td
+(Para salir usa el botón 'Salir' de la barra superior.) Tj
+ET
+BT
+/F1 9 Tf
+500 40 Td
+(Página 1 de 4) Tj
+ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 8 0 R >>
+endobj
+8 0 obj
+<< /Length 897 >>
+stream
+BT
+/F2 22 Tf
+72 760 Td
+(2. Tabla de publicaciones) Tj
+ET
+0.2 0.4 0.8 RG
+2 w
+72 745 m 540 745 l S
+BT
+/F1 12 Tf
+72 710 Td
+(- Búsqueda global: escribe texto \(título o contenido\).) Tj
+ET
+BT
+/F1 12 Tf
+72 690 Td
+(- Filtro por usuario: elige un autor en el desplegable.) Tj
+ET
+BT
+/F1 12 Tf
+72 670 Td
+(- Filtro por tags: selecciona uno o varios; se muestran las) Tj
+ET
+BT
+/F1 12 Tf
+72 650 Td
+(  publicaciones que tienen TODOS los tags elegidos.) Tj
+ET
+BT
+/F1 12 Tf
+72 630 Td
+(- Paginado: cambia de página o el número de filas por página.) Tj
+ET
+BT
+/F1 12 Tf
+72 610 Td
+() Tj
+ET
+BT
+/F1 12 Tf
+72 590 Td
+(Acciones por fila:) Tj
+ET
+BT
+/F1 12 Tf
+72 570 Td
+(  Ver       abre el detalle completo.) Tj
+ET
+BT
+/F1 12 Tf
+72 550 Td
+(  Editar    abre el formulario con los datos cargados.) Tj
+ET
+BT
+/F1 12 Tf
+72 530 Td
+(  Eliminar  pide confirmación antes de borrar.) Tj
+ET
+BT
+/F1 9 Tf
+500 40 Td
+(Página 2 de 4) Tj
+ET
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 10 0 R >>
+endobj
+10 0 obj
+<< /Length 804 >>
+stream
+BT
+/F2 22 Tf
+72 760 Td
+(3. Crear y editar) Tj
+ET
+0.2 0.4 0.8 RG
+2 w
+72 745 m 540 745 l S
+BT
+/F1 12 Tf
+72 710 Td
+(Pulsa 'Nueva publicación' o el lápiz de una fila.) Tj
+ET
+BT
+/F1 12 Tf
+72 690 Td
+() Tj
+ET
+BT
+/F1 12 Tf
+72 670 Td
+(Validaciones:) Tj
+ET
+BT
+/F1 12 Tf
+72 650 Td
+(  Título      obligatorio, entre 5 y 120 caracteres.) Tj
+ET
+BT
+/F1 12 Tf
+72 630 Td
+(  Contenido   obligatorio, mínimo 20 caracteres.) Tj
+ET
+BT
+/F1 12 Tf
+72 610 Td
+(  Usuario     obligatorio.) Tj
+ET
+BT
+/F1 12 Tf
+72 590 Td
+(  Tags        entre 1 y 5 \(Enter o coma para agregar\).) Tj
+ET
+BT
+/F1 12 Tf
+72 570 Td
+() Tj
+ET
+BT
+/F1 12 Tf
+72 550 Td
+(Nota: DummyJSON simula el guardado pero no persiste los datos.) Tj
+ET
+BT
+/F1 12 Tf
+72 530 Td
+(La app conserva tus cambios durante la sesión.) Tj
+ET
+BT
+/F1 9 Tf
+500 40 Td
+(Página 3 de 4) Tj
+ET
+endstream
+endobj
+11 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 12 0 R >>
+endobj
+12 0 obj
+<< /Length 637 >>
+stream
+BT
+/F2 22 Tf
+72 760 Td
+(4. Este visor) Tj
+ET
+0.2 0.4 0.8 RG
+2 w
+72 745 m 540 745 l S
+BT
+/F1 12 Tf
+72 710 Td
+(- Flechas: página anterior / siguiente.) Tj
+ET
+BT
+/F1 12 Tf
+72 690 Td
+(- Caja numérica: escribe una página y pulsa Enter.) Tj
+ET
+BT
+/F1 12 Tf
+72 670 Td
+(- Lupa - / +: zoom del 50% al 300%; el porcentaje lo restablece.) Tj
+ET
+BT
+/F1 12 Tf
+72 650 Td
+(- Descargar: guarda el PDF en tu equipo.) Tj
+ET
+BT
+/F1 12 Tf
+72 630 Td
+() Tj
+ET
+BT
+/F1 12 Tf
+72 610 Td
+(También puedes abrir cualquier PDF público pegando su URL) Tj
+ET
+BT
+/F1 12 Tf
+72 590 Td
+(\(el servidor debe permitir CORS\).) Tj
+ET
+BT
+/F1 9 Tf
+500 40 Td
+(Página 4 de 4) Tj
+ET
+endstream
+endobj
+xref
+0 13
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000140 00000 n 
+0000000237 00000 n 
+0000000339 00000 n 
+0000000475 00000 n 
+0000001384 00000 n 
+0000001520 00000 n 
+0000002468 00000 n 
+0000002605 00000 n 
+0000003461 00000 n 
+0000003599 00000 n 
+trailer
+<< /Size 13 /Root 1 0 R >>
+startxref
+4288
+%%EOF

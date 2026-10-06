@@ -12,6 +12,7 @@ export function AppLayout() {
       <header className="flex align-items-center justify-content-between p-3 border-bottom-1 surface-border">
         <nav className="flex gap-3">
           <NavLink to="/posts">Publicaciones</NavLink>
+          <NavLink to="/docs">Ayuda</NavLink>
         </nav>
 
         <div className="flex align-items-center gap-2">
